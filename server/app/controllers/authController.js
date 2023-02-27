@@ -2,28 +2,37 @@ const UserService = require('../services/UserService')
 const bcrypt = require('bcrypt')
 class AuthController{
 	async signin(req,res){
-		console.log('jasdfio')
-		res.send('signin')
-	}
-	async signup(req, res){
 		const {username, password} = req.body
 		const user = await UserService.getUser(username)
 		if(user){
-			const comparedPassowrd = await bcrypt.compare(password, user.passhash)
-			if(comparedPassowrd){
+			const comparedPassword = await bcrypt.compare(password, user.passhash)
+			if(comparedPassword){
 				req.session.user={
 					username,
 					id: user.id
 				}
-				res.json({status: 200, user})
-				console.log(req.session)
+				res.json({status: 200, username})
 			}
 			else{
 				res.json({
 					status: 400,
-					message: 'Wrong password or username'
+					message: 'Wrong password'
 				})
 			}
+		}
+		else {
+			res.json({
+				status: 400,
+				message: 'Wrong username'
+			})
+		}
+	}
+
+	async signup(req, res){
+		const {username, password} = req.body
+		const user = await UserService.getUser(username)
+		if(user){
+			res.json({status: 400, message: 'User with that user already exist'})
 		}
 		else{
 			const passhash = await bcrypt.hash(password, 7)
