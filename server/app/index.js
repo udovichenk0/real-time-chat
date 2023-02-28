@@ -7,7 +7,7 @@ const server = http.createServer(app)
 const authRouter = require('./routes/authRouter')
 const cors = require('cors')
 const session = require('express-session')
-const RedisStore = require('connect-redis')(session)
+const MongoStore = require("connect-mongo")
 const Redis = require('ioredis')
 const redisClient = new Redis()
 dotenv.config()
@@ -20,7 +20,7 @@ app.use(session({
 	name: 'sess_test',
 	resave: false,
 	saveUninitialized: false,
-	store: new RedisStore({client: redisClient}),
+	store: MongoStore.create(),
 	cookie: {
 		secure: app.get('env') === 'production',
 		httpOnly: true,
