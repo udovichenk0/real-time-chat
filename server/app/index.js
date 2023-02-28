@@ -8,8 +8,7 @@ const authRouter = require('./routes/authRouter')
 const cors = require('cors')
 const session = require('express-session')
 const MongoStore = require("connect-mongo")
-const Redis = require('ioredis')
-const redisClient = new Redis()
+
 dotenv.config()
 app.use(cors({
 	credentials: 'true',
@@ -20,7 +19,9 @@ app.use(session({
 	name: 'sess_test',
 	resave: false,
 	saveUninitialized: false,
-	store: MongoStore.create(),
+	store: MongoStore.create({
+		mongoUrl: process.env.MONGODB_URL
+	}),
 	cookie: {
 		secure: app.get('env') === 'production',
 		httpOnly: true,
