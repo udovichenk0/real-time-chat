@@ -1,8 +1,15 @@
 const UserService = require('../services/UserService')
 const bcrypt = require('bcrypt')
 class AuthController{
+
+	async login(req,res){
+		console.log(req.session)
+		res.end()
+	}
+
 	async signin(req,res){
 		const {username, password} = req.body
+		console.log(req.session)
 		const user = await UserService.getUser(username)
 		if(user){
 			const comparedPassword = await bcrypt.compare(password, user.passhash)
@@ -28,6 +35,7 @@ class AuthController{
 		}
 	}
 
+
 	async signup(req, res){
 		const {username, password} = req.body
 		const user = await UserService.getUser(username)
@@ -41,11 +49,13 @@ class AuthController{
 				username,
 				id: newUser.id
 			}
+			
 			res.json({
 				status: 200,
 				username
 			})
 		}
+		res.end()
 	}
 }
 

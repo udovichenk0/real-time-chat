@@ -5,7 +5,12 @@ class UserService {
 		return user
 	}
 	async createUser(username, passhash){
-		return await User.create({username, passhash})
+		try {
+			const createdUser = await User.create({username, passhash})
+			return createdUser
+		} catch (error) {
+			return error
+		}
 	}
 }
 
