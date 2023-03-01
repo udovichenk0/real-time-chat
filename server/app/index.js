@@ -7,30 +7,40 @@ const server = http.createServer(app)
 const authRouter = require('./routes/authRouter')
 const cors = require('cors')
 const session = require('express-session')
+var cookieParser = require('cookie-parser')
 const MongoStore = require("connect-mongo")
 
+app.set('trust proxy', 1)
+// app.use(cookieParser())
+app.use(express.json())
 dotenv.config()
 app.use(cors({
-	credentials: 'true',
+	credentials: true,
+	// methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
+	origin: 'http://127.0.0.1:5173',
 }))
 
 app.use(session({
-	secret: process.env.SESSION_SECRET,
-	name: 'sess_test',
+	secret: 'process.env.SESSION_SECRET',
+	name: 'sid1',
 	resave: false,
-	saveUninitialized: false,
-	store: MongoStore.create({
-		mongoUrl: process.env.MONGODB_URL
-	}),
+	saveUninitialized: true,
+	// store: MongoStore.create({
+	// 	mongoUrl: process.env.MONGODB_URL
+	// }),
 	cookie: {
-		secure: app.get('env') === 'production',
+		secure:app.get('env') == 'production' ? true : "auto",
 		httpOnly: true,
-		maxAge: 1000 * 60 * 60 * 24 * 7,
-		sameSite: app.get('env') === 'production' ? 'none' : 'lax'
+		sameSite: app.get('env') == 'production' ? "none" : 'lax'
 	}
 }))
-app.use(express.json())
+
+// app.use('/', (req,res, next)=> {
+// 	res.send('asdf')
+// 	next()
+// })
 app.use('/', authRouter)
+
 
 const start = async () => {
 	try {

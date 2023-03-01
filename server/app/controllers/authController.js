@@ -9,16 +9,15 @@ class AuthController{
 
 	async signin(req,res){
 		const {username, password} = req.body
-		console.log(req.session)
 		const user = await UserService.getUser(username)
 		if(user){
 			const comparedPassword = await bcrypt.compare(password, user.passhash)
 			if(comparedPassword){
-				req.session.user={
+				req.session.user = {
 					username,
 					id: user.id
 				}
-				res.json({status: 200, username})
+				res.send('hello')
 			}
 			else{
 				res.json({
@@ -50,7 +49,7 @@ class AuthController{
 				id: newUser.id
 			}
 			
-			res.json({
+			res.send({
 				status: 200,
 				username
 			})
