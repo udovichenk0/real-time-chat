@@ -1,20 +1,24 @@
+import { router } from "@/app/config/router"
+import { sessionModel } from "@/models/session"
 import { useSignInMutation } from "@/service"
+import { useAction } from "@/shared/hooks"
 import { useForm } from "react-hook-form"
 import { AuthBaseButton } from "../../../components/buttons"
 import { RedirectAuthButton } from "../../../components/buttons/redirect-auth-button"
 import { BaseAuthInput } from "../../../components/inputs"
-
 export const SignIn = () => {
-	const [signIn, result] = useSignInMutation()
 	const {register, handleSubmit, formState: {errors}} = useForm({
 		defaultValues: {
 			username: '',
 			password: ''
 		}
 	})
+	const login = useAction(sessionModel.loginThunk)
+
 	const onSubmit = ({username, password}:{username: string, password: string}) => {
-		signIn({username, password})
+		login({username, password})
 	}
+	
 	return (
 		<div className="h-screen bg-[#172028] flex items-center justify-center text-white flex-col">
 			<h1 className="font-bold mb-10">Login</h1>
