@@ -1,1 +1,2 @@
-export * from "./ui";
+import SignUp from "./ui";
+export default SignUp;

@@ -1,6 +1,6 @@
-import { sessionModel } from "@/models/session";
-import { baseApi } from "@/service";
-import { listenerMiddleware } from "@/shared/redux";
+import { sessionModel } from "@/entities/session";
+import { baseApi } from "@/shared/api";
+import { listenerMiddleware } from "@/shared/lib/redux/listener";
 import { configureStore } from "@reduxjs/toolkit";
 
 export const store = configureStore({

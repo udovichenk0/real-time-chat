@@ -7,7 +7,7 @@ export const login = async ({
   username: string;
   password: string;
 }) => {
-  const data = await axios.post(
+  const data = await axios.post<{ username: string; status: number }>(
     "http://localhost:3001/signin",
     {
       username,

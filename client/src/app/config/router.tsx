@@ -1,27 +1,10 @@
-import { createRouter } from "@/shared/router";
+import { Page403 } from "@/pages/_403";
+import { createRouter } from "@/shared/lib/router";
+import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
-import { SignIn } from "../../pages/Auth/Sign-in";
-import { SignUp } from "../../pages/Auth/Sign-up";
 import { Home } from "../../pages/Home";
-// export const router = createBrowserRouter([
-//   {
-//     path: "/",
-// 	element: <Home/>
-//   },
-//   {
-//     path: '/auth',
-//     children: [
-//       {
-//         path: '/auth/sign-in',
-//         element: <SignIn/>
-//       },
-//       {
-//         path: '/auth/sign-up',
-//         element: <SignUp/>
-//       }
-//     ]
-//   }
-// ]);
+const SignIn = lazy(() => import('@/pages/Auth/Sign-in'))
+const SignUp = lazy(() => import('@/pages/Auth/Sign-up'))
 export const router = createRouter(
   [
     {
@@ -40,6 +23,10 @@ export const router = createRouter(
           element: <SignUp/>
         }
       ]
+    },
+    {
+      path: '/403',
+      element: <Page403/>
     }
   ]
 )

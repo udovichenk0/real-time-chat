@@ -10,13 +10,14 @@ class AuthController{
 	async signin(req,res){
 		const {username, password} = req.body
 		const user = await UserService.getUser(username)
+		console.log(req.session.user)
 		if(user){
 			const comparedPassword = await bcrypt.compare(password, user.passhash)
 			if(comparedPassword){
 				req.session.user ={
 					username,
+					id: user.id
 				}
-				console.log(req.session)
 				res.json({status: 200, username})
 			}
 			else{

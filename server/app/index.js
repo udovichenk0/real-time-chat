@@ -21,14 +21,10 @@ app.use(session({
 	name: 'sid',
 	resave: false,
 	saveUninitialized: false,
+	cookie: {
+		httpOnly: true
+	}
 }))
-app.get('/', (req, res, next) => {
-	req.session.foo = 'some text here'
-	res.send('Hello World!')
-	console.log("get")
-	next()
-  })
-
 
 app.use('/', authRouter)
 
