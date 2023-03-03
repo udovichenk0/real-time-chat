@@ -7,9 +7,13 @@ export const login = async ({
   username: string;
   password: string;
 }) => {
-  const data = await axios.post("http://localhost:3001/signin", {
-    username,
-    password,
-  });
+  const data = await axios.post(
+    "http://localhost:3001/signin",
+    {
+      username,
+      password,
+    },
+    { withCredentials: true }
+  );
   return data;
 };

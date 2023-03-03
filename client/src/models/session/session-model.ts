@@ -10,6 +10,7 @@ import {
   isAllOf,
   isRejected,
 } from "@reduxjs/toolkit";
+import axios from "axios";
 import { login } from "./api";
 type Profile = {
   username: string;
@@ -43,9 +44,10 @@ export const loginThunk = createAsyncThunk<
   async ({ username, password }, { dispatch, rejectWithValue }) => {
     try {
       const { data } = await login({ username, password });
+      const d = await axios.get("http://localhost:3001");
       if (data.status == 200) {
         dispatch(slice.actions.setProfile(username));
-        router.navigate("/");
+        // router.navigate("/");
       } else {
         throw new Error(data.message);
       }

@@ -6,14 +6,28 @@ const http = require('http')
 const server = http.createServer(app)
 const authRouter = require('./routes/authRouter')
 const cors = require('cors')
-
+const session = require('express-session')
 
 app.use(express.json())
 dotenv.config()
 app.use(cors({
 	credentials: true,
-	origin: 'http://127.0.0.1:5173',
+	origin: 'http://localhost:3000',
+	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 }))
+
+app.use(session({
+	secret: 'mysecret',
+	name: 'sid',
+	resave: false,
+	saveUninitialized: false,
+}))
+app.get('/', (req, res, next) => {
+	req.session.foo = 'some text here'
+	res.send('Hello World!')
+	console.log("get")
+	next()
+  })
 
 
 app.use('/', authRouter)

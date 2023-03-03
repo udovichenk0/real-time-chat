@@ -13,7 +13,11 @@ class AuthController{
 		if(user){
 			const comparedPassword = await bcrypt.compare(password, user.passhash)
 			if(comparedPassword){
-				res.send({status: 200, username})
+				req.session.user ={
+					username,
+				}
+				console.log(req.session)
+				res.json({status: 200, username})
 			}
 			else{
 				res.json({

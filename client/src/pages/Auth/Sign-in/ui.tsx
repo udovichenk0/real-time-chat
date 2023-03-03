@@ -9,8 +9,8 @@ import { BaseAuthInput } from "../../../components/inputs"
 export const SignIn = () => {
 	const {register, handleSubmit, formState: {errors}} = useForm({
 		defaultValues: {
-			username: '',
-			password: ''
+			username: 'denzeldenis',
+			password: '2j8w6d12'
 		}
 	})
 	const login = useAction(sessionModel.loginThunk)
@@ -18,7 +18,7 @@ export const SignIn = () => {
 	const onSubmit = ({username, password}:{username: string, password: string}) => {
 		login({username, password})
 	}
-	
+
 	return (
 		<div className="h-screen bg-[#172028] flex items-center justify-center text-white flex-col">
 			<h1 className="font-bold mb-10">Login</h1>
