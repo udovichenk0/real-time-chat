@@ -3,22 +3,28 @@ const bcrypt = require('bcrypt')
 class AuthController{
 
 	async login(req,res){
-		console.log(req.session)
+		if(req.session.user){
+			res.send({username: 'denis', _id: 'asdfiojasodf'})
+		}
 		res.end()
 	}
 
 	async signin(req,res){
+		console.log(req.session.user)
 		const {username, password} = req.body
 		const user = await UserService.getUser(username)
-		console.log(req.session.user)
 		if(user){
 			const comparedPassword = await bcrypt.compare(password, user.passhash)
 			if(comparedPassword){
-				req.session.user ={
-					username,
-					id: user.id
+				const userDto = {
+					username: user.username,
+					_id: user.id
 				}
-				res.json({status: 200, username})
+				req.session.user={
+					username: user.username,
+					_id: user.id
+				}
+				res.send(userDto)
 			}
 			else{
 				res.json({
@@ -40,17 +46,22 @@ class AuthController{
 		const {username, password} = req.body
 		const user = await UserService.getUser(username)
 		if(user){
-			res.json({status: 400, message: 'User with that user already exist'})
+			res.json({status: 400, message: 'User with that username already exists'})
 		}
 		else{
 			const passhash = await bcrypt.hash(password, 7)
 			const newUser = await UserService.createUser(username, passhash)
-			res.send({
-				status: 200,
-				username
-			})
+
+			const userDto = {
+				username: newUser.username,
+				_id: newUser.id
+			}
+			req.session.user={
+				username: user.username,
+				_id: user.id
+			}
+			res.send(userDto)
 		}
-		res.end()
 	}
 }
 

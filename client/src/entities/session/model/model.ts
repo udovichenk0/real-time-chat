@@ -1,9 +1,7 @@
+import { Profile } from "@/shared/api/auth";
 import { createBaseSelector } from "@/shared/lib/redux";
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type Profile = {
-  username: string;
-};
 const initialState = {
   isAuthenticated: false,
   profile: {
@@ -20,7 +18,7 @@ export const slice = createSlice({
     login(state) {
       state.isAuthenticated = true;
     },
-    setProfile(state, action: PayloadAction<{ username: string }>) {
+    setProfile(state, action: PayloadAction<Profile>) {
       state.profile = { ...state.profile, ...action.payload };
     },
   },
@@ -33,9 +31,11 @@ const isAuthenticated = createSelector(
   (state) => state.isAuthenticated
 );
 
+const profile = createSelector(baseSelector, (state) => state.profile)
+
 export const actions = {
   login: slice.actions.login,
   setProfile: slice.actions.setProfile,
 };
-export const selectors = { isAuthenticated };
+export const selectors = { isAuthenticated, profile };
 export const reducer = { [slice.name]: slice.reducer };

@@ -89,7 +89,7 @@ a {
 abbr[title] {
   border-bottom: none; /* 1 */
   text-decoration: underline; /* 2 */
-  text-decoration: underline dotted; /* 2 */
+  /* 2 */
 }
 
 /**
@@ -316,13 +316,13 @@ textarea {
 
 /* Interactive
    ========================================================================== */
-
 /*
  * Add the correct display in Edge, IE 10+, and Firefox.
  */
 
 details {
   display: block;
+  /* color: #0000002f */
 }
 
 /*

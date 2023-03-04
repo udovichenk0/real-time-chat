@@ -1,26 +1,27 @@
 import { Page403 } from "@/pages/_403";
 import { createRouter } from "@/shared/lib/router";
 import { lazy } from "react";
-import { createBrowserRouter } from "react-router-dom";
-import { Home } from "../../pages/Home";
+import { Home } from "@/pages/Home";
+import { RequiredAuth } from "./protected-routes";
+import { AuthedRoute } from "@/app/config/protected-routes";
 const SignIn = lazy(() => import('@/pages/Auth/Sign-in'))
 const SignUp = lazy(() => import('@/pages/Auth/Sign-up'))
 export const router = createRouter(
   [
     {
       path: "/",
-    element: <Home/>
+    element: <AuthedRoute><Home/></AuthedRoute>
     },
     {
       path: '/auth',
       children: [
         {
           path: '/auth/sign-in',
-          element: <SignIn/>
+          element: <RequiredAuth><SignIn/></RequiredAuth>
         },
         {
           path: '/auth/sign-up',
-          element: <SignUp/>
+          element: <RequiredAuth><SignUp/></RequiredAuth>
         }
       ]
     },

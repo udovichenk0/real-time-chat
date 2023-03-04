@@ -1,15 +1,14 @@
-import { baseApi } from "../base-api/base-api";
-
+import { baseApi } from "../base-api";
+import { Profile } from "./type";
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    signIn: builder.mutation<any, { username: string; password: string }>({
-      query: ({ username, password }) => ({
+    signIn: builder.query<Profile, void>({
+      query: () => ({
         url: "signin",
-        method: "POST",
-        body: { username, password },
+        credentials: 'include'
       }),
     }),
   }),
 });
 
-export const { useSignInMutation } = authApi;
+export const { useSignInQuery } = authApi;

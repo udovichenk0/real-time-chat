@@ -1,3 +1,5 @@
+import { sessionModel } from "@/entities/session";
+import { router } from "@/shared/lib/router";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { register } from "../api";
 
@@ -9,10 +11,9 @@ export const registerThunk = createAsyncThunk<
   async ({ username, password }, { dispatch, rejectWithValue }) => {
     try {
       const { data } = await register({ username, password });
-      console.log("sodfaosdjf");
-      //   dispatch(sessionModel.actions.login());
-      //   dispatch(sessionModel.actions.setProfile({ username }));
-      // router.navigate("/");
+      dispatch(sessionModel.actions.login());
+      dispatch(sessionModel.actions.setProfile(data));
+      router.navigate("/");
     } catch (error) {
       rejectWithValue(error);
     }
