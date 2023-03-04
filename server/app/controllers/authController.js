@@ -4,13 +4,12 @@ class AuthController{
 
 	async login(req,res){
 		if(req.session.user){
-			res.send({username: 'denis', _id: 'asdfiojasodf'})
+			res.send(req.session.user)
 		}
 		res.end()
 	}
 
 	async signin(req,res){
-		console.log(req.session.user)
 		const {username, password} = req.body
 		const user = await UserService.getUser(username)
 		if(user){
@@ -18,12 +17,10 @@ class AuthController{
 			if(comparedPassword){
 				const userDto = {
 					username: user.username,
-					_id: user.id
+					_id: user.id,
+					friends: user.friends
 				}
-				req.session.user={
-					username: user.username,
-					_id: user.id
-				}
+				req.session.user=userDto
 				res.send(userDto)
 			}
 			else{
@@ -54,12 +51,10 @@ class AuthController{
 
 			const userDto = {
 				username: newUser.username,
-				_id: newUser.id
+				_id: newUser.id,
+				friends: newUser.friends
 			}
-			req.session.user={
-				username: user.username,
-				_id: user.id
-			}
+			req.session.user=userDto
 			res.send(userDto)
 		}
 	}

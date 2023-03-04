@@ -1,6 +1,7 @@
 import { BaseModal } from "@/shared/ui/modals/base-modal"
 import { useState } from "react"
 import { AddFriendSvg } from "./assets"
+import {AddFriendForm} from "@/features/add-friend";
 
 export const Home = () => {
 	const [modalState, toggleModalState] = useState(false)
@@ -11,7 +12,7 @@ export const Home = () => {
 					<h2 className="font-medium text-[30px] text-white">Add Friend</h2>
 					<button onClick={() => toggleModalState(true)}><AddFriendSvg/></button>
 					<BaseModal toggle={toggleModalState} opened={modalState}>
-						<h2>aiosdjf</h2>
+						<AddFriendForm/>
 					</BaseModal>
 				</div>
 			</div>

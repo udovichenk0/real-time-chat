@@ -1,4 +1,4 @@
-const User = require('../entities/userModel')
+const User = require('../entities/User/userModel')
 class UserService {
 	async getUser(username){
 		const user = await User.findOne({username})
@@ -6,11 +6,16 @@ class UserService {
 	}
 	async createUser(username, passhash){
 		try {
-			const createdUser = await User.create({username, passhash})
+			const createdUser = await User.create({
+				username,
+				passhash,
+				friends: []
+			})
 			return createdUser
 		} catch (error) {
 			return error
 		}
+
 	}
 }
 

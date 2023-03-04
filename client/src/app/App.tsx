@@ -9,16 +9,12 @@ function App() {
     const data = useSignInQuery();
     const setProfile = useAction(sessionModel.actions.setProfile);
     const login = useAction(sessionModel.actions.login)
-    console.log(data)
     useEffect(() => {
-        console.log(data.data)
         if (data.data) {
-            console.log("hello")
             setProfile(data.data)
             login()
         }
     }, [data]);
-    // if(data.isLoading) return null
   return (
       <Suspense fallback={'loading..'}>
           <RouterProvider router={router}/>

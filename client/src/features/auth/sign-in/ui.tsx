@@ -1,7 +1,7 @@
 import { useAction } from "@/shared/lib/redux"
 import { AuthBaseButton } from "@/shared/ui/buttons"
 import { RedirectAuthButton } from "@/shared/ui/buttons/redirect-auth-button"
-import { BaseAuthInput } from "@/shared/ui/inputs"
+import { BaseInput } from "@/shared/ui/inputs"
 import { useForm } from "react-hook-form"
 import { login } from "./api"
 import { loginThunk } from "./model"
@@ -20,8 +20,8 @@ export const LoginForm = () => {
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className=' w-full max-w-[500px] flex flex-col gap-5'>
-		<BaseAuthInput register={register} name={'username'} placeholder={'Enter login'}/>
-		<BaseAuthInput register={register} name={'password'} placeholder={'Enter password'}/>
+		<BaseInput register={register} name={'username'} label={'Login'} placeholder={'Enter login'}/>
+		<BaseInput register={register} name={'password'} label={'Password'} placeholder={'Enter password'}/>
 		<div className="flex justify-between">
 			<AuthBaseButton title="Log In"/>
 			<RedirectAuthButton title={'Create Account'} redirect={'/auth/sign-up'}/>
