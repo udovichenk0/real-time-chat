@@ -28,7 +28,6 @@ app.use(session({
 		httpOnly: true
 	}
 }))
-
 app.use('/', authRouter)
 app.use('/', friendshipRouter)
 
