@@ -3,8 +3,11 @@ const dotenv = require('dotenv')
 const app = express()
 const mongoose = require('mongoose')
 const http = require('http')
-const server = http.createServer(app)
+
 const authRouter = require('./routes/authRouter')
+const friendshipRouter = require('./routes/friendshipRouter')
+
+const server = http.createServer(app)
 const cors = require('cors')
 const session = require('express-session')
 
@@ -27,7 +30,7 @@ app.use(session({
 }))
 
 app.use('/', authRouter)
-
+app.use('/', friendshipRouter)
 
 const start = async () => {
 	try {

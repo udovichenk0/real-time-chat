@@ -17,24 +17,18 @@ class AuthController{
 			if(comparedPassword){
 				const userDto = {
 					username: user.username,
+					userId: user.userId,
 					_id: user.id,
-					friends: user.friends
 				}
 				req.session.user=userDto
 				res.send(userDto)
 			}
 			else{
-				res.json({
-					status: 400,
-					message: 'Wrong password'
-				})
+				res.status(400).send('Wrong password')
 			}
 		}
 		else {
-			res.json({
-				status: 400,
-				message: 'Wrong username'
-			})
+			res.status(400).send('Wrong username')
 		}
 	}
 
@@ -43,16 +37,15 @@ class AuthController{
 		const {username, password} = req.body
 		const user = await UserService.getUser(username)
 		if(user){
-			res.json({status: 400, message: 'User with that username already exists'})
+			res.status(400).send('User with that username already exists')
 		}
 		else{
 			const passhash = await bcrypt.hash(password, 7)
 			const newUser = await UserService.createUser(username, passhash)
-
 			const userDto = {
 				username: newUser.username,
-				_id: newUser.id,
-				friends: newUser.friends
+				userId: newUser.userId,
+				_id: newUser._id,
 			}
 			req.session.user=userDto
 			res.send(userDto)

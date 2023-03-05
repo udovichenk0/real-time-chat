@@ -1,4 +1,5 @@
 const User = require('../entities/User/userModel')
+const uuidv4 = require('uuidv4')
 class UserService {
 	async getUser(username){
 		const user = await User.findOne({username})
@@ -8,8 +9,8 @@ class UserService {
 		try {
 			const createdUser = await User.create({
 				username,
+				userId: uuidv4.uuid(),
 				passhash,
-				friends: []
 			})
 			return createdUser
 		} catch (error) {
