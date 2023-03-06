@@ -4,6 +4,7 @@ const Friend = require('../entities/Friend/friendModel')
 const User = require('../entities/User/userModel')
 const mongoose = require('mongoose')
 
+
 class FriendshipController {
     async addFriend(req, res){
         try{
