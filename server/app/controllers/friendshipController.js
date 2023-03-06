@@ -9,8 +9,9 @@ class FriendshipController {
     async addFriend(req, res){
         try{
             const {user, friend} = req.body
+            console.log(user, friend)
             await FriendshipService.addFriend(user, friend)
-            res.status(200)
+            res.status(200).send('done')
         }
         catch (err){
             res.status(400).send({message: 'Failed to add a friend'})
@@ -26,6 +27,17 @@ class FriendshipController {
             res.status(400).send({message: 'Failed to get friends'})
         }
     }
+    async getPendingFriends(req,res){
+        try{
+            const {userId} = req.query
+            const pendingFriends = await FriendshipService.getPendingFriends((userId))
+            res.status(200).send(pendingFriends)
+        }
+        catch (err){
+            res.status(400).send({message: 'Failed to get users'})
+        }
+
+    }
     async acceptFriendship(req,res){
         try {
             const {user, friend} = req.body
@@ -36,6 +48,8 @@ class FriendshipController {
             res.send(400).send({message: 'Failed to accept a friendship'})
         }
     }
+
+
 }
 
 
