@@ -14,7 +14,7 @@ class FriendshipController {
             res.status(200).send('done')
         }
         catch (err){
-            res.status(400).send({message: 'Failed to add a friend'})
+            res.status(400).send({message: 'Failed to add a ApiFriend'})
         }
     }
     async getFriends(req, res){

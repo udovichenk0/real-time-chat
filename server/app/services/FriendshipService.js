@@ -14,9 +14,7 @@ class FriendshipService {
     }
 
     async getFriends(userId){
-        const userObjId = new mongoose.Types.ObjectId(userId)
-
-        const user = await User.findById(userObjId)
+        const user = await User.findOne({userId})
             .populate({
                 path: 'friends',
                 populate: {
@@ -29,9 +27,7 @@ class FriendshipService {
         return user.friends
     }
     async getPendingFriends(userId){
-        const userObjId = new mongoose.Types.ObjectId(userId)
-
-        const user = await User.findById(userObjId)
+        const user = await User.findOne({userId})
             .populate({
                 path: 'friends',
                 populate: {

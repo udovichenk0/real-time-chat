@@ -11,9 +11,11 @@ export const registerThunk = createAsyncThunk<
   async ({ username, password }, { dispatch, rejectWithValue }) => {
     try {
       const { data } = await register({ username, password });
-      dispatch(sessionModel.actions.login());
-      dispatch(sessionModel.actions.setProfile(data));
-      router.navigate("/");
+      if(data){
+          dispatch(sessionModel.actions.login());
+          dispatch(sessionModel.actions.setProfile(data));
+          router.navigate("/");
+      }
     } catch (error) {
       rejectWithValue(error);
     }
