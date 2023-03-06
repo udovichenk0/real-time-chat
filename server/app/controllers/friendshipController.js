@@ -8,9 +8,8 @@ const mongoose = require('mongoose')
 class FriendshipController {
     async addFriend(req, res){
         try{
-            const {user, friend} = req.body
-            console.log(user, friend)
-            await FriendshipService.addFriend(user, friend)
+            const {userId, friendName} = req.body
+            await FriendshipService.addFriend(userId, friendName)
             res.status(200).send('done')
         }
         catch (err){

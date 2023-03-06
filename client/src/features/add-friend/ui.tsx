@@ -1,15 +1,20 @@
 import {BaseInput} from "@/shared/ui/inputs";
 import {useForm} from "react-hook-form";
 import {AuthBaseButton} from "@/shared/ui/buttons";
-
+import {useAddFriendMutation} from "@/shared/api/ApiFriend";
+import {useAppSelector} from "@/shared/lib/redux";
+import { sessionModel } from "@/entities/session";
 export const AddFriendForm = () => {
+    const profile = useAppSelector(sessionModel.selectors.profile)
+
+    const [addFriend] = useAddFriendMutation()
     const {register, handleSubmit} = useForm({
         defaultValues: {
             username: ''
         }
     })
-    const onSubmit = (data:any) => {
-        console.log(data)
+    const onSubmit = ({username}:{username: string}) => {
+        addFriend({userId: profile._id, friendName: username})
     }
     return (
         <form className='flex flex-col gap-4 items-end w-full' onSubmit={handleSubmit(onSubmit)}>

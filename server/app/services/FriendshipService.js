@@ -3,14 +3,16 @@ const Friend = require("../entities/Friend/friendModel");
 const User = require("../entities/User/userModel");
 
 class FriendshipService {
-    async addFriend(requesterId, recipientId){
-        const requesterObjId = new mongoose.Types.ObjectId(requesterId)
-        const recipientObjId = new mongoose.Types.ObjectId(recipientId)
+    async addFriend(requesterId, recipientName){
+        const recipient = await User.findOne({username: recipientName})
 
-        const docA = await Friend.findOneAndUpdate({requester: requesterObjId,recipient: recipientObjId},{$set: {status: 'pending'}}, {upsert: true, new: true})
-        const docB = await Friend.findOneAndUpdate({requester: recipientObjId, recipient: requesterObjId}, {$set: {status: 'pending'}}, {upsert: true, new: true})
-        const updateFriend = await User.findOneAndUpdate({_id: recipientObjId}, {$push: {friends: docB._id}})
-        const updateUser = await User.findOneAndUpdate({_id: requesterObjId}, {$push: {friends: docA._id}})
+        // const recipientObjId = new mongoose.Types.ObjectId(recipient._id)
+        // const requesterObjId = new mongoose.Types.ObjectId(requesterId)
+
+        const docA = await Friend.findOneAndUpdate({requester: requesterId,recipient: recipient._id},{$set: {status: 'pending'}}, {upsert: true, new: true})
+        const docB = await Friend.findOneAndUpdate({requester: recipient._id, recipient: requesterId}, {$set: {status: 'pending'}}, {upsert: true, new: true})
+        const updateFriend = await User.findOneAndUpdate({_id: recipient._id}, {$push: {friends: docB._id}})
+        const updateUser = await User.findOneAndUpdate({_id: requesterId}, {$push: {friends: docA._id}})
     }
 
     async getFriends(userId){
@@ -41,7 +43,8 @@ class FriendshipService {
         return user.friends
     }
     async acceptFriendship(requesterId, recipientId){
-        await Friend.findOneAndUpdate({requester: requesterId, recipient: recipientId}, {$set: {status: 'accepted'}})
+
+        await Friend.findOneAndUpdate({requester: requesterId,recipient: recipientId}, {$set: {status: 'accepted'}})
         await Friend.findOneAndUpdate({requester: recipientId, recipient: requesterId}, {$set: {status: 'accepted'}})
     }
 }
