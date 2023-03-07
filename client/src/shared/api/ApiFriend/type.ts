@@ -1,9 +1,11 @@
 export type Friend = {
     _id: string
-    recipient: {
-        username: string
-        userId: string
-        __v: number
-    }
+    recipient: Recipient
     status: 'accepted'
+}
+
+export interface Recipient {
+    username: string
+    userId: string
+    __v: number
 }

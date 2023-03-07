@@ -3,13 +3,20 @@ const dotenv = require('dotenv')
 const app = express()
 const mongoose = require('mongoose')
 const http = require('http')
-
+const {Server} = require('socket.io')
+const {sessionMiddleware, wrapper} = require('./config')
 const authRouter = require('./routes/authRouter')
 const friendshipRouter = require('./routes/friendshipRouter')
-
 const server = http.createServer(app)
 const cors = require('cors')
-const session = require('express-session')
+
+const io = new Server(server, {
+	cors:{
+		origin: 'http://localhost:3000',
+		credentials: true
+	}
+})
+
 
 app.use(express.json())
 dotenv.config()
@@ -18,18 +25,15 @@ app.use(cors({
 	origin: 'http://localhost:3000',
 	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 }))
-
-app.use(session({
-	secret: 'mysecret',
-	name: 'sid',
-	resave: false,
-	saveUninitialized: false,
-	cookie: {
-		httpOnly: true
-	}
-}))
+app.use(sessionMiddleware)
 app.use('/', authRouter)
 app.use('/', friendshipRouter)
+
+io.use(wrapper(sessionMiddleware))
+io.on('connect', (socket) => {
+	console.log(socket.request.session.user)
+})
+
 
 const start = async () => {
 	try {

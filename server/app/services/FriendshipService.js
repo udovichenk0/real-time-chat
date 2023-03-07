@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const Friend = require("../entities/Friend/friendModel");
 const User = require("../entities/User/userModel");
 
@@ -11,8 +10,8 @@ class FriendshipService {
 
         const docA = await Friend.findOneAndUpdate({requester: requesterId,recipient: recipient._id},{$set: {status: 'pending'}}, {upsert: true, new: true})
         const docB = await Friend.findOneAndUpdate({requester: recipient._id, recipient: requesterId}, {$set: {status: 'pending'}}, {upsert: true, new: true})
-        const updateFriend = await User.findOneAndUpdate({_id: recipient._id}, {$push: {friends: docB._id}})
-        const updateUser = await User.findOneAndUpdate({_id: requesterId}, {$push: {friends: docA._id}})
+        await User.findOneAndUpdate({_id: recipient._id}, {$push: {friends: docB._id}})
+        await User.findOneAndUpdate({_id: requesterId}, {$push: {friends: docA._id}})
     }
 
     async getFriends(userId){
@@ -43,9 +42,11 @@ class FriendshipService {
         return user.friends
     }
     async acceptFriendship(requesterId, recipientId){
+        const requester = await User.findOne({userId: requesterId})
+        const recipient = await User.findOne({userId: recipientId})
 
-        await Friend.findOneAndUpdate({requester: requesterId,recipient: recipientId}, {$set: {status: 'accepted'}})
-        await Friend.findOneAndUpdate({requester: recipientId, recipient: requesterId}, {$set: {status: 'accepted'}})
+        await Friend.findOneAndUpdate({requester: requester._id,recipient: recipient._id}, {$set: {status: 'accepted'}})
+        await Friend.findOneAndUpdate({requester: recipient._id, recipient: requester._id}, {$set: {status: 'accepted'}})
     }
 }
 

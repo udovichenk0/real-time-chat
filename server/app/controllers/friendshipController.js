@@ -1,9 +1,5 @@
 const FriendshipService = require('../services/FriendshipService')
 
-const Friend = require('../entities/Friend/friendModel')
-const User = require('../entities/User/userModel')
-const mongoose = require('mongoose')
-
 
 class FriendshipController {
     async addFriend(req, res){
@@ -39,8 +35,8 @@ class FriendshipController {
     }
     async acceptFriendship(req,res){
         try {
-            const {user, friend} = req.body
-            await FriendshipService.acceptFriendship(user, friend)
+            const {userId, friendId} = req.body
+            await FriendshipService.acceptFriendship(userId, friendId)
             res.sendStatus(200)
         }
         catch (err){

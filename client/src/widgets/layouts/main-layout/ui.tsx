@@ -1,35 +1,49 @@
-import {AddFriendSvg} from "@/pages/Home/assets";
 import {BaseModal} from "@/shared/ui/modals/base-modal";
 import {AddFriendForm} from "@/features/add-friend";
 import {Fragment, PropsWithChildren, useState} from "react";
-import {useGetFriendsQuery} from "@/shared/api/ApiFriend";
+import {useAcceptFriendshipMutation, useGetFriendsQuery, useGetPendingFriendsQuery} from "@/shared/api/ApiFriend";
 import { sessionModel } from "@/entities/session";
 import {useAppSelector} from "@/shared/lib/redux";
-import {Link, NavLink} from "react-router-dom";
-import avatar from './assets/avatar.jpg'
+import {NavLink} from "react-router-dom";
+import {User} from "@/entities/user/ui/User/ui";
+import {AddFriendSvg} from "@/shared/ui/buttons/add-friend-svg";
+
 export const MainLayout = ({children}:PropsWithChildren) => {
     const [modalState, toggleModalState] = useState(false)
+    const [pendingFriendsModalState, togglePendingFriendsModalState] = useState(false)
+
     const profile = useAppSelector(sessionModel.selectors.profile)
-    const {data, isLoading} = useGetFriendsQuery({userId: profile.userId})
-    console.log(data)
+
+    const {data:friends} = useGetFriendsQuery({userId: profile.userId})
+    const {data: pendingFriends} = useGetPendingFriendsQuery({userId: profile.userId})
+    const [acceptFriendship] = useAcceptFriendshipMutation()
+
     return (
         <div className="bg-[#404258] h-screen flex"> {/*#7B8FA1*/}
             <div className="min-w-[400px] border-r-2 border-[#495579] h-screen bg-[#474E68] shadow-2xl"> {/*#567189*/}
                 <div className="border-b-2 border-[#80888f] px-3 py-5 flex justify-between"> {/*#bg-[#65647C]*/}
-                    <h2 className="font-medium text-[30px] text-white">Add Friend</h2>
-                    <button onClick={() => toggleModalState(true)}><AddFriendSvg/></button>
-                    <BaseModal toggle={toggleModalState} opened={modalState}>
+                    <AddFriendSvg onClick={() => togglePendingFriendsModalState(true)}/>
+                    <AddFriendSvg onClick={() => toggleModalState(true)}/>
+                    <BaseModal toggle={togglePendingFriendsModalState} opened={pendingFriendsModalState} title={'Accept a friendship'}>
+                        {pendingFriends?.map(({recipient}) => {
+                            return (
+                                <Fragment key={recipient.userId}>
+                                    <User recipient={recipient} acceptFriendship={() => acceptFriendship({userId: profile.userId, friendId: recipient.userId})}/>
+                                </Fragment>
+                            )
+                        })}
+                    </BaseModal>
+                    <BaseModal toggle={toggleModalState} opened={modalState} title={"Add Friend!"}>
                         <AddFriendForm/>
                     </BaseModal>
                 </div>
                 <div>
-                    {data?.map(({recipient}) => {
+                    {friends?.map(({recipient}) => {
                         return (
-                            <NavLink key={recipient.userId} className={`p-3 text-white flex gap-3 ${'active' && 'bg-[#65647C]'}`} to={`/${recipient.userId}`}>
-                                <div className='w-[70px] h-[70px]'>
-                                    <img src={avatar} className='w-full h-full object-cover rounded-full' alt="avatar"/>
+                            <NavLink key={recipient.userId} className={`${'active' && 'bg-[#65647C]'}`} to={`/${recipient.userId}`}>
+                                <div className={'p-3'}>
+                                    <User recipient={recipient}/>
                                 </div>
-                                <span className={'font-medium'}>{recipient.username}</span>
                             </NavLink>
                         )
                     })}

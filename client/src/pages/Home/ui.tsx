@@ -1,12 +1,9 @@
-import { BaseModal } from "@/shared/ui/modals/base-modal"
-import { useState } from "react"
-import { AddFriendSvg } from "./assets"
-import {AddFriendForm} from "@/features/add-friend";
-import {useGetFriendsQuery} from "@/shared/api/ApiFriend";
+import {useState} from "react"
 import {MainLayout} from "@/widgets/layouts/main-layout";
+import {useSocket} from "@/processes/socket";
 
 export const Home = () => {
-	const [modalState, toggleModalState] = useState(false)
+		useSocket()
 	return (
 		<MainLayout>
 			<div className='flex items-center justify-center w-full'>
