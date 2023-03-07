@@ -44,6 +44,7 @@ main {
 h1 {
   font-size: 2em;
   margin: 0.67em 0;
+  color: rgba(139, 139, 139, 0.72)
 }
 
 /* Grouping content
