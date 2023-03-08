@@ -6,7 +6,10 @@ class AuthController{
 		if(req.session.user){
 			res.send(req.session.user)
 		}
+		else{
+			res.clearCookie('sid')
 		res.end()
+		}
 	}
 
 	async signin(req,res){

@@ -1,14 +1,20 @@
 import {useState} from "react"
-import {MainLayout} from "@/widgets/layouts/main-layout";
 import {useSocket} from "@/processes/socket";
+import {Chat} from "@/features/chat";
+import {Sidebar} from "@/widgets/Sidebar";
 
 export const Home = () => {
-		useSocket()
+		const [message, setMessage] = useState()
+		useSocket({setMessage})
+
+	const [chat, setChat] = useState('')
+
 	return (
-		<MainLayout>
-			<div className='flex items-center justify-center w-full'>
-				<h2 className='text-white text-xl font-medium'>Select a chat to communicate</h2>
-			</div>
-		</MainLayout>
+		<div className="bg-[#404258] h-screen flex"> {/*#7B8FA1*/}
+			<Sidebar setChat={setChat}/>
+			{chat
+			? <Chat/>
+			: <div>Select a chat</div>}
+		</div>
 	)
 }

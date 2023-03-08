@@ -10,7 +10,6 @@ export const loginThunk = createAsyncThunk<
   async ({ username, password }, { dispatch, rejectWithValue }) => {
     try {
       const { data } = await login({ username, password });
-          console.log(data)
       if(data){
           dispatch(sessionModel.actions.login());
           dispatch(sessionModel.actions.setProfile(data));

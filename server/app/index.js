@@ -4,7 +4,7 @@ const app = express()
 const mongoose = require('mongoose')
 const http = require('http')
 const {Server} = require('socket.io')
-const {sessionMiddleware, wrapper} = require('./config')
+const {sessionMiddleware, wrapper, authorizedUser} = require('./config')
 const authRouter = require('./routes/authRouter')
 const friendshipRouter = require('./routes/friendshipRouter')
 const server = http.createServer(app)
@@ -30,8 +30,16 @@ app.use('/', authRouter)
 app.use('/', friendshipRouter)
 
 io.use(wrapper(sessionMiddleware))
+io.use(authorizedUser)
 io.on('connect', (socket) => {
-	console.log(socket.request.session.user)
+
+	socket.join(socket.user.userId)
+
+	socket.on('message', ({to, message}) => {
+		io.to(to).emit('sent-message', {from: socket.user.userId, message})
+		// io.emit('sent-message', {to:'1',message:'hello',from:socket.user.userId})
+	})
+
 })
 
 
