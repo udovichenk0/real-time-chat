@@ -1,4 +1,4 @@
-import {useState} from "react"
+import {useEffect, useState} from "react"
 import {useSocket} from "@/processes/socket";
 import {Chat} from "@/features/chat";
 import {Sidebar} from "@/widgets/Sidebar";

@@ -4,13 +4,14 @@ const app = express()
 const mongoose = require('mongoose')
 const http = require('http')
 const {Server} = require('socket.io')
-const {sessionMiddleware, wrapper, authorizedUser} = require('./config')
+const {sessionMiddleware, wrapper, authorizedUser,onDisconnect,friendsWithStatus} = require('./config')
 const authRouter = require('./routes/authRouter')
-
+const SocketController = require('./controllers/socketController')
 const friendshipRouter = require('./routes/friendshipRouter')
 const server = http.createServer(app)
 
 const cors = require('cors')
+const FriendshipService = require("./services/FriendshipService");
 
 
 
@@ -36,15 +37,14 @@ app.use('/', friendshipRouter)
 
 io.use(wrapper(sessionMiddleware))
 io.use(authorizedUser)
-io.on('connect', (socket) => {
-
+io.on('connect', async (socket) => {
 	socket.join(socket.user.userId)
+	const friends = await FriendshipService.getFriends(socket.user.userId)
+	const socketController = new SocketController(socket, friends)
 
-	socket.on('message', ({to, message}) => {
-		io.to(to).emit('sent-message', {from: socket.user.userId, message})
-		// io.emit('sent-message', {to:'1',message:'hello',from:socket.user.userId})
-	})
-
+	await socketController.getFriends()
+	await socketController.emitOnlineStatus()
+	onDisconnect(socket, friends)
 })
 
 
