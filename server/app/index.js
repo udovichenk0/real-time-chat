@@ -42,7 +42,7 @@ io.on('connect', async (socket) => {
 	const friends = await FriendshipService.getFriends(socket.user.userId)
 	const socketController = new SocketController(socket, friends)
 
-	await socketController.getFriends()
+	// await socketController.getFriends()
 	await socketController.emitOnlineStatus()
 	onDisconnect(socket, friends)
 })

@@ -1,6 +1,7 @@
 export type Friend = {
     _id: string
     recipient: Recipient
+    connected: boolean
     status: 'accepted'
 }
 

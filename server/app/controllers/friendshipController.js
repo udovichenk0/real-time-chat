@@ -1,4 +1,5 @@
 const FriendshipService = require('../services/FriendshipService')
+const {friendsWithStatus} = require("../config");
 
 
 class FriendshipController {
@@ -16,7 +17,8 @@ class FriendshipController {
         try{
         const {userId} = req.query
             const friends = await FriendshipService.getFriends(userId)
-            res.status(200).send(friends)
+            const updatedStatus = await friendsWithStatus(friends)
+            res.status(200).send(updatedStatus)
         }
         catch (err){
             res.status(400).send({message: 'Failed to get friends'})
