@@ -6,9 +6,14 @@ const http = require('http')
 const {Server} = require('socket.io')
 const {sessionMiddleware, wrapper, authorizedUser} = require('./config')
 const authRouter = require('./routes/authRouter')
+
 const friendshipRouter = require('./routes/friendshipRouter')
 const server = http.createServer(app)
+
 const cors = require('cors')
+
+
+
 
 const io = new Server(server, {
 	cors:{

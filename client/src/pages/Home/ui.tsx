@@ -13,7 +13,7 @@ export const Home = () => {
 		<div className="bg-[#404258] h-screen flex"> {/*#7B8FA1*/}
 			<Sidebar setChat={setChat}/>
 			{chat
-			? <Chat/>
+			? <Chat userId={chat}/>
 			: <div>Select a chat</div>}
 		</div>
 	)
