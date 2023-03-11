@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt')
 class AuthController{
 
 	async login(req,res){
-		console.log(req.session.user)
 		if(req.session.user){
 			res.send(req.session.user)
 		}
