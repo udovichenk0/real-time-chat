@@ -1,16 +1,16 @@
-import { Profile } from "@/shared/api/auth";
+import { SessionUser } from "@/shared/api/auth";
 import { createBaseSelector } from "@/shared/lib/redux";
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {store} from "@/app/redux/store";
 
 const initialState = {
   isAuthenticated: false,
   profile: {
     username: "",
-  } as Profile,
+  } as SessionUser,
 };
 const name = "models/session-model";
 type State = typeof initialState;
-
 export const slice = createSlice({
   name,
   initialState,
@@ -18,7 +18,7 @@ export const slice = createSlice({
     login(state) {
       state.isAuthenticated = true;
     },
-    setProfile(state, action: PayloadAction<Profile>) {
+    setProfile(state, action: PayloadAction<SessionUser>) {
       state.profile = { ...state.profile, ...action.payload };
     },
   },

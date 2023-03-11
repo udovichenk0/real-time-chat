@@ -1,4 +1,4 @@
-export interface Profile {
+export interface SessionUser {
   username: string;
   _id: string;
   userId: string

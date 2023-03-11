@@ -1,4 +1,4 @@
-import { Profile } from "@/shared/api/auth";
+import { SessionUser } from "@/shared/api/auth";
 import axios from "axios";
 
 export const login = async ({
@@ -8,7 +8,7 @@ export const login = async ({
   username: string;
   password: string;
 }) => {
-  const data = await axios.post<Profile>(
+  const data = await axios.post<SessionUser>(
     "http://localhost:3001/signin",
     {
       username,

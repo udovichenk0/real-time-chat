@@ -1,8 +1,8 @@
 import { baseApi } from "../base-api";
-import { Profile } from "./type";
+import { SessionUser } from "./type";
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    signIn: builder.query<Profile, void>({
+    signIn: builder.query<SessionUser, void>({
       query: () => ({
         url: "signin",
         credentials: 'include'
