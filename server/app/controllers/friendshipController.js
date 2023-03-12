@@ -1,7 +1,5 @@
 const FriendshipService = require('../services/FriendshipService')
 const {friendsWithStatus} = require("../config");
-
-
 class FriendshipController {
     async addFriend(req, res){
         try{
@@ -24,6 +22,7 @@ class FriendshipController {
             res.status(400).send({message: 'Failed to get friends'})
         }
     }
+
     async getPendingFriends(req,res){
         try{
             const {userId} = req.query
@@ -33,7 +32,6 @@ class FriendshipController {
         catch (err){
             res.status(400).send({message: 'Failed to get users'})
         }
-
     }
     async acceptFriendship(req,res){
         try {
