@@ -1,6 +1,6 @@
 import {useState} from "react"
 import {useSocket} from "@/processes/socket";
-import {Chat} from "@/features/chat";
+import {Chat} from "@/widgets/chat";
 import {Sidebar} from "@/widgets/Sidebar";
 
 export const Home = () => {
