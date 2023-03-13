@@ -16,6 +16,7 @@ import {
 
 
 
+
 export const Sidebar = ({setChat}:{setChat: (id: string) => void}) => {
     const [modalState, toggleModalState] = useState(false)
     const [pendingFriendsModalState, togglePendingFriendsModalState] = useState(false)
