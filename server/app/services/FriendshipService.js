@@ -4,7 +4,7 @@ const User = require("../entities/User/userModel");
 class FriendshipService {
     async addFriend(requesterId, recipientName){
         const recipient = await User.findOne({username: recipientName})
-        const docA = await Friend.findOneAndUpdate({requester: requesterId,recipient: recipient._id},{$set: {status: 'pending'}}, {upsert: true, new: true})
+        const docA = await Friend.findOneAndUpdate({requester: requesterId,recipient: recipient._id},{$set: {status: 'requested'}}, {upsert: true, new: true})
         const docB = await Friend.findOneAndUpdate({requester: recipient._id, recipient: requesterId}, {$set: {status: 'pending'}}, {upsert: true, new: true})
         await User.findOneAndUpdate({_id: recipient._id}, {$push: {friends: docB._id}})
         await User.findOneAndUpdate({_id: requesterId}, {$push: {friends: docA._id}})
