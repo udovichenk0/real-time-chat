@@ -41,8 +41,11 @@ class FriendshipService {
         const requester = await User.findOne({userId: requesterId})
         const recipient = await User.findOne({userId: recipientId})
 
-        await Friend.findOneAndUpdate({requester: requester._id,recipient: recipient._id}, {$set: {status: 'accepted'}})
+        const friend = await Friend.findOneAndUpdate({requester: requester._id,recipient: recipient._id}, {$set: {status: 'accepted'}})
         await Friend.findOneAndUpdate({requester: recipient._id, recipient: requester._id}, {$set: {status: 'accepted'}})
+
+        console.log(friend)
+
     }
 }
 

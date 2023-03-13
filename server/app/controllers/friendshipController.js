@@ -36,8 +36,8 @@ class FriendshipController {
     async acceptFriendship(req,res){
         try {
             const {userId, friendId} = req.body
-            await FriendshipService.acceptFriendship(userId, friendId)
-            res.sendStatus(200)
+            const recipient = await FriendshipService.acceptFriendship(userId, friendId)
+            res.status(200).send(recipient)
         }
         catch (err){
             res.send(400).send({message: 'Failed to accept a friendship'})

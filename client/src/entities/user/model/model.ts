@@ -1,5 +1,5 @@
-import {Action, createAsyncThunk, createSelector, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {ApiFriend, Friend, useGetFriendsQuery} from "@/shared/api/ApiFriend";
+import {createAsyncThunk, createSelector, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {Friend} from "@/shared/api/ApiFriend";
 import {createBaseSelector} from "@/shared/lib/redux";
 import axios from "axios";
 
@@ -16,6 +16,9 @@ import axios from "axios";
         name,
         initialState,
         reducers: {
+            setUser(state, action:PayloadAction<Friend>){
+              state.users.push(action.payload)
+            },
             setUsers(state, action:PayloadAction<Friend[]>){
                 state.users = [...action.payload]
             },
@@ -31,16 +34,20 @@ import axios from "axios";
     const baseSelector = createBaseSelector<State>(name)
     const users = createSelector(baseSelector, (state) => state.users)
 
-    const setUsersThunk = createAsyncThunk('entity/users', async (userId:string, {dispatch}) => {
-        const {data} = await axios<Friend[]>(`http://localhost:3001/get-friends?userId=${userId}`)
+    const setUsersThunk = createAsyncThunk<void, string>('entity/users', async (userId, {dispatch}) => {
+        const {data} = await axios<Friend[]>('http://localhost:3001/get-friends', {
+            params: {
+                userId
+            }
+        })
         dispatch(slice.actions.setUsers(data))
-        return data
     })
 
     export const selectors = {
         users
     }
     export const actions = {
+        setUser: slice.actions.setUser,
         setUsers: slice.actions.setUsers,
         updateConnectStatus: slice.actions.updateConnectStatus
     }

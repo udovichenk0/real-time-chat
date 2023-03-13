@@ -36,7 +36,7 @@ export const ApiFriend = baseApi.injectEndpoints({
             }),
             invalidatesTags: [{type: 'Friend', id: 'LIST'}]
         }),
-        acceptFriendship: builder.mutation<any, {userId: string, friendId: string}>({
+        acceptFriendship: builder.mutation<Friend, {userId: string, friendId: string}>({
             query: ({userId, friendId}) => ({
                 url: 'accept-friendship',
                 method: 'POST',
