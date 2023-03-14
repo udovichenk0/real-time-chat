@@ -34,9 +34,9 @@ export const Sidebar = ({setChat}:{setChat: (id: string) => void}) => {
             setPendingUsers(profile.userId)
             setUsers(profile.userId)
     }, [])
-    console.log('render')
     return (
         <div className="min-w-[300px] border-r-2 border-[#495579] h-screen bg-[#474E68] shadow-2xl"> {/*#567189*/}
+            {/*{s}*/}
             <div className="border-b-2 border-[#80888f] px-3 py-5 flex justify-between"> {/*#bg-[#65647C]*/}
                 <AddFriendSvg onClick={() => togglePendingFriendsModalState(true)}/>
                 <AddFriendSvg onClick={() => toggleModalState(true)}/>
