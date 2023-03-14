@@ -1,41 +1,20 @@
-import {baseApi} from "@/shared/api";
+import axios from "axios";
 import {Friend} from "@/shared/api/ApiFriend/type";
 
-export const ApiFriend = baseApi.injectEndpoints({
-    endpoints: builder => ({
-        getPendingFriends: builder.query<Friend[], {userId: string}>({
-            query: ({userId}) => ({
-                url: `get-pending-friends?userId=${userId}`
-            }),
-            providesTags: (result) =>
-            result ? [
-                    ...result.map(({recipient}) => ({type: 'Friend' as const, id: recipient.userId})),
-                    {type: 'Friend', id: 'LIST'}
-                ]
-                : [{type: 'Friend', id: 'LIST'}]
-        }),
-        addFriend: builder.mutation<any, {userId: string, friendName: string}>({
-            query: ({userId, friendName}) => ({
-                url: 'add-friend',
-                method: 'POST',
-                body: {
-                    userId,
-                    friendName
-                }
-            }),
-            invalidatesTags: [{type: 'Friend', id: 'LIST'}]
-        }),
-        acceptFriendship: builder.mutation<Friend, {userId: string, friendId: string}>({
-            query: ({userId, friendId}) => ({
-                url: 'accept-friendship',
-                method: 'POST',
-                body: {
-                    userId, friendId
-                }
-            }),
-            invalidatesTags: [{type: 'Friend', id: 'LIST'}]
-        })
+export const getFriends = async ({userId}:{userId:string}) => {
+    const {data} = await axios<Friend<'accepted'>[]>('http://localhost:3001/get-friends', {
+        params: {
+            userId
+        }
     })
-})
+    return data
+}
 
-export const {useAddFriendMutation, useAcceptFriendshipMutation, useGetPendingFriendsQuery} = ApiFriend
+export const getPendingFriends = async ({userId}:{userId:string}) => {
+    const {data} = await axios<Friend<'pending'>[]>('http://localhost:3001/get-pending-friends', {
+        params: {
+            userId
+        }
+    })
+    return data
+}

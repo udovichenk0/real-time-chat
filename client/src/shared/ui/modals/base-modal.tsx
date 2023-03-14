@@ -16,9 +16,9 @@ export const BaseModal = ({children, toggle, opened, title}:
 
 	return (
 		<div ref={ref} onClick={(e) => handleCloseModal(e)} className="absolute w-full flex items-center justify-center h-screen left-0 top-0 bg-[#0000002f]">
-			<div className="w-[500px] bg-[#2e3847] text-white rounded-md">
-				<div className="flex justify-between p-5 border-b-2 border-[#8b8b8bb8]">
-					<h2 className="font-bold text-[20px]">{title}</h2>
+			<div className="w-[500px] bg-[#2e3847] text-white rounded-md shadow-2xl">
+				<div className="flex justify-between p-5 border-b-[1px] border-[#8b8b8bb8]">
+					<h2 className="font-bold text-[18px]">{title}</h2>
 					<button onClick={() => toggle(false)}>X</button>
 				</div>
 				<div className='p-5'>

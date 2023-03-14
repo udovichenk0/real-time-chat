@@ -43,6 +43,11 @@ io.on('connect', async (socket) => {
 	const rooms = friends.map(({recipient}) => recipient.userId)
 	socket.join([...rooms, socket.user.userId])
 	const socketController = new SocketController(socket, friends)
+
+	await socketController.getPendFriends()
+	await socketController.getFriends()
+	await socketController.acceptFriendship()
+	await socketController.addFriend()
 	await socketController.sendMessage()
 	await socketController.emitOnlineStatus()
 	onDisconnect(socket, friends)

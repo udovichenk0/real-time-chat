@@ -1,8 +1,8 @@
-export type Friend = {
+export type Friend<T extends 'accepted' | 'pending'> = {
     _id: string
     recipient: Recipient
     connected: boolean
-    status: 'accepted'
+    status: T
 }
 
 export interface Recipient {

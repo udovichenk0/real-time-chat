@@ -65,4 +65,11 @@ async function friendsWithStatus (friends) {
     return friendList
 }
 
-module.exports = {sessionMiddleware, wrapper, authorizedUser, corsConfig, onDisconnect, friendsWithStatus}
+async function friendWithStatus(friend){
+    const isConnected = await redisClient.hget(`user:${friend.recipient.userId}`, 'connected')
+    friend.connected = JSON.parse(isConnected)
+    return friend
+}
+
+
+module.exports = {sessionMiddleware, wrapper, authorizedUser, corsConfig, onDisconnect, friendsWithStatus, friendWithStatus}

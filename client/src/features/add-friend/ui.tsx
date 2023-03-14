@@ -1,24 +1,20 @@
 import {BaseInput} from "@/shared/ui/inputs";
 import {useForm} from "react-hook-form";
 import {AuthBaseButton} from "@/shared/ui/buttons";
-import {useAddFriendMutation} from "@/shared/api/ApiFriend";
-import {useAppSelector} from "@/shared/lib/redux";
-import { sessionModel } from "@/entities/session";
-export const AddFriendForm = ({toggleModal}:{toggleModal: (b:boolean) => void}) => {
-    const profile = useAppSelector(sessionModel.selectors.profile)
+import {socket} from "@/shared/lib/socket";
 
-    const [addFriend] = useAddFriendMutation()
+export const AddFriendForm = ({toggleModal}:{toggleModal: (b:boolean) => void}) => {
     const {register, handleSubmit} = useForm({
         defaultValues: {
             username: ''
         }
     })
     const onSubmit = ({username}:{username: string}) => {
-        addFriend({userId: profile._id, friendName: username})
+        socket.emit('add-friend', username)
         toggleModal(false)
     }
     return (
-        <form className='flex flex-col gap-4 items-end w-full' onSubmit={handleSubmit(onSubmit)}>
+        <form className='flex flex-col gap-2 items-end w-full relative z-[100]' onSubmit={handleSubmit(onSubmit)}>
             <BaseInput register={register} name={"username"} label={"Friend's name"} placeholder={'Enter name of a user'}/>
             <div className='inline'>
             <AuthBaseButton title={'Submit'}/>
