@@ -1,5 +1,4 @@
 export const AddFriend = ({onClick, pendFriends}:{onClick: () => void, pendFriends?:number}) => {
-    pendFriends = 10
     return (
         <button onClick={onClick} className={'relative'}>
             {!!pendFriends && <span
