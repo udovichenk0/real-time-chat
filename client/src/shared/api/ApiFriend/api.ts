@@ -1,5 +1,5 @@
 import axios from "axios";
-import {Friend} from "@/shared/api/ApiFriend/type";
+import {Friend} from "@/shared/api/ApiFriend";
 
 export const getFriends = async ({userId}:{userId:string}) => {
     const {data} = await axios<Friend<'accepted'>[]>('http://localhost:3001/get-friends', {

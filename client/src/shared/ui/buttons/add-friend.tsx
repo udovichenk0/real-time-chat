@@ -1,6 +1,11 @@
-export const AddFriendSvg = ({onClick}:{onClick: () => void}) => {
+export const AddFriend = ({onClick, pendFriends}:{onClick: () => void, pendFriends?:number}) => {
+    pendFriends = 10
     return (
-        <button onClick={onClick}>
+        <button onClick={onClick} className={'relative'}>
+            {!!pendFriends && <span
+                className={'absolute -top-1/2 -right-1/2 bg-[#DF7857] w-[15px] h-[15px] text-[10px] flex items-center justify-center text-white rounded-full'}>
+                {pendFriends < 10 ? pendFriends : '9+'}
+            </span>}
         <svg fill="#fff" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
              width="20" height="20px" viewBox="0 0 45.902 45.902"
              xmlSpace="preserve">

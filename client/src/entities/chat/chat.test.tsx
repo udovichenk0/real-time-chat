@@ -2,6 +2,8 @@ import {describe, expect, test} from "vitest";
 import {actions, slice} from "./model";
         const payload = {
             message: 'hello',
+            uid: 'asdfasf',
+            createdAt: '1:20',
             sender: {
                 username: 'Denis',
                 _id: '123',
@@ -15,6 +17,8 @@ import {actions, slice} from "./model";
         }
         const payload2 = {
             message: '123',
+            uid: 'asdfasf',
+            createdAt: '1:20',
             sender: {
                 username: 'Denis123',
                 _id: '123',
@@ -26,7 +30,6 @@ import {actions, slice} from "./model";
                 userId: '12345'
             }
         }
-
         const msgs = [payload,payload2]
 describe('chat reducers', () => {
     test('should add new messages', () => {

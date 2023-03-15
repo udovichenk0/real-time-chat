@@ -48,6 +48,7 @@ import {createBaseSelector} from "@/shared/lib/redux";
 
     const setUsersThunk = createAsyncThunk<void, string>('entity/users', async (userId, {dispatch}) => {
         const data = await getFriends({userId})
+        console.log(data)
         dispatch(slice.actions.setUsers(data))
     })
 
@@ -55,6 +56,7 @@ import {createBaseSelector} from "@/shared/lib/redux";
     const data = await getPendingFriends({userId})
         dispatch(slice.actions.setPendingUsers(data))
     })
+
 
 
     export const selectors = {

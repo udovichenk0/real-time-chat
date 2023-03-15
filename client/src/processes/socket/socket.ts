@@ -18,7 +18,6 @@ export const useSocket = () => {
             addMessage({sender, recipient, message, uid, createdAt})
         })
         socket.on('connected', (connected, userId) => {
-            console.log(connected)
             updateOnlineStatus({status: connected, userId})
         })
 

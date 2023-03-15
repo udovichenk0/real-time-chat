@@ -5,13 +5,14 @@ import {AddFriendForm} from "@/features/add-friend";
 import { sessionModel } from "@/entities/session";
 import {User, usersModel} from "@/entities/user";
 
-import {AddFriendSvg} from "@/shared/ui/buttons/add-friend-svg";
+import {AddFriend} from "@/shared/ui/buttons/add-friend";
 import {BaseModal} from "@/shared/ui/modals/base-modal";
 import {useAction, useAppSelector} from "@/shared/lib/redux";
 import {
     Recipient,
 } from "@/shared/api/ApiFriend";
 import {socket} from "@/shared/lib/socket/socket";
+import {SearchFriend} from "./assets/search-svg";
 
 
 export const Sidebar = ({setChat}:{setChat: (id: string) => void}) => {
@@ -38,18 +39,20 @@ export const Sidebar = ({setChat}:{setChat: (id: string) => void}) => {
         <div className="min-w-[300px] border-r-2 border-[#495579] h-screen bg-[#474E68] shadow-2xl"> {/*#567189*/}
             {/*{s}*/}
             <div className="border-b-2 border-[#80888f] px-3 py-5 flex justify-between"> {/*#bg-[#65647C]*/}
-                <AddFriendSvg onClick={() => togglePendingFriendsModalState(true)}/>
-                <AddFriendSvg onClick={() => toggleModalState(true)}/>
+                <AddFriend onClick={() => togglePendingFriendsModalState(true)} pendFriends={pendFriends.length}/>
+                <SearchFriend onClick={() => toggleModalState(true)}/>
                 <BaseModal toggle={togglePendingFriendsModalState} opened={pendingFriendsModalState} title={'Accept a friendship'}>
-                    {pendFriends.length ? pendFriends?.map(({recipient}) => {
-                            return (
-                                <Fragment key={recipient.userId}>
-                                    <User showOnlineStatus={false} recipient={recipient} acceptFriendship={() => handleAcceptFriend(recipient)}/>
-                                </Fragment>
-                            )
-                        })
-                        : <h1 className={'text-base font-medium'}>No requests here</h1>
-                    }
+                    <div className={'flex flex-col gap-4'}>
+                        {pendFriends.length ? pendFriends?.map(({recipient}) => {
+                                return (
+                                    <Fragment key={recipient.userId}>
+                                        <User showOnlineStatus={false} recipient={recipient} acceptFriendship={() => handleAcceptFriend(recipient)}/>
+                                    </Fragment>
+                                )
+                            })
+                            : <h1 className={'text-base font-medium'}>No requests here</h1>
+                        }
+                    </div>
                 </BaseModal>
                 <BaseModal toggle={toggleModalState} opened={modalState} title={"Add Friend!"}>
                     <AddFriendForm toggleModal={toggleModalState}/>

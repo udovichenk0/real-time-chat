@@ -29,7 +29,7 @@ class SocketController {
             const senderObjId = this.socket.user._id
             const msg = await ConversationService.createConversation(senderObjId,recipient._id,message,uid)
             const createdAt = msg.createdAt
-            this.socket.to(recipient).emit('receive-message', senderDto,recipientDto,message, uid, msg.createdAt)
+            this.socket.to(recipient.userId).emit('receive-message', senderDto,recipientDto,message, uid, msg.createdAt)
             this.socket.emit('receive-message', senderDto,recipientDto,message, uid, createdAt)
         })
     }
