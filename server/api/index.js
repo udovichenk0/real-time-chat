@@ -32,9 +32,9 @@ const server = http.createServer(app)
 // 	origin: 'http://localhost:3000',
 // 	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 // }))
-io.use(wrapper(sessionMiddleware))
-io.use(authorizedUser)
-app.use(sessionMiddleware)
+// io.use(wrapper(sessionMiddleware))
+// io.use(authorizedUser)
+// app.use(sessionMiddleware)
 // app.use('/', conversationRouter)
 // app.use('/', authRouter)
 // app.use('/', friendshipRouter)
