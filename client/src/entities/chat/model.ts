@@ -1,10 +1,12 @@
 import {createAsyncThunk, createSelector, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {createBaseSelector} from "@/shared/lib/redux";
-import {ApiConversation, Message} from "@/shared/api/ApiConversation";
+import {Message} from "@/shared/api/ApiConversation";
+import axios from "axios";
 
 
 export const initialState = {
-    messages: [] as Message[]
+    messages: [] as Message[],
+    isLoading: false,
 }
 type State = typeof initialState
 const name = 'entity/chat'
@@ -18,36 +20,41 @@ export const slice = createSlice({
         },
         setMessages(state, action:PayloadAction<Message[]>){
             state.messages = [...action.payload]
-        }
+            state.isLoading = false
+        },
+        startPending(state){
+            state.isLoading = true
+        },
     }
 })
 
-const getMessages = createAsyncThunk<void, {userId: string, friendId: string}>('entity/chat/thunk',
-    async ({userId, friendId}, {dispatch}) => {
-        const result = await dispatch(ApiConversation.endpoints.getMessages.initiate({userId, friendId}, {
-            forceRefetch: true
-        }))
+
+const getMessages = createAsyncThunk<void, {userId: string, friendId: string, page:number}>('entity/chat/thunk',
+    async ({userId, friendId, page}, {dispatch}) => {
+        const result = await axios<Message[]>('http://localhost:3001/get-messages', {params: {
+            userId, friendId, page
+            }})
         const data = result.data
-        if(data){
-        dispatch(slice.actions.setMessages(data))
+        dispatch(slice.actions.startPending())
+        if(data.length){
+            dispatch(slice.actions.setMessages(data))
         }
 })
 
-
-
 const baseSelector = createBaseSelector<State>(name)
 const messages = createSelector(baseSelector, state => state.messages)
-
+const isChatLoading = createSelector(baseSelector, state => state.isLoading)
 export const selectors = {
-    messages
+    messages,
+    isChatLoading,
 }
 
 export const thunk = {
-    getMessages
+    getMessages,
 }
 
 export const actions = {
     addMessage: slice.actions.addMessage,
-    setMessages: slice.actions.setMessages
+    setMessages: slice.actions.setMessages,
 }
 export const reducer = {[slice.name]:slice.reducer}
