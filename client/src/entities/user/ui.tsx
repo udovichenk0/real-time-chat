@@ -1,4 +1,4 @@
-import avatar from './avatar.jpg'
+import avatar from './avatar.png'
 import {AddFriend} from "@/shared/ui/buttons/add-friend";
 import {Recipient} from "@/shared/api/ApiFriend";
 export const User = (
