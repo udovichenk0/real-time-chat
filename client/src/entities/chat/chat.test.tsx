@@ -33,15 +33,18 @@ import {actions, slice} from "./model";
         const msgs = [payload,payload2]
 describe('chat reducers', () => {
     test('should add new messages', () => {
+        // @ts-ignore
         expect(slice.reducer({messages: []}, actions.addMessage(payload))).toEqual({
             messages: [payload]
         })
+        // @ts-ignore
         expect(slice.reducer({messages: [payload]}, actions.addMessage(payload2))).toEqual({
             messages: [payload, payload2]
         })
     })
 
     test('should set all messages', () => {
+        // @ts-ignore
         expect(slice.reducer({messages: []}, actions.setMessages(msgs))).toEqual({
             messages: msgs
         })

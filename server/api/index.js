@@ -4,15 +4,15 @@ const app = express()
 const mongoose = require('mongoose')
 const http = require('http')
 const {Server} = require('socket.io')
-const {sessionMiddleware, wrapper, authorizedUser,onDisconnect} = require('../config')
-const authRouter = require('../routes/authRouter')
-const conversationRouter = require('../routes/conversationRouter')
-const SocketController = require('../controllers/socketController')
-const friendshipRouter = require('../routes/friendshipRouter')
+const {sessionMiddleware, wrapper, authorizedUser,onDisconnect} = require('./config')
+const authRouter = require('./routes/authRouter')
+const conversationRouter = require('./routes/conversationRouter')
+const SocketController = require('./controllers/socketController')
+const friendshipRouter = require('./routes/friendshipRouter')
 const server = http.createServer(app)
 
 const cors = require('cors')
-const FriendshipService = require("../services/FriendshipService");
+const FriendshipService = require("./services/FriendshipService");
 
 
 
@@ -65,5 +65,4 @@ const start = async () => {
 		throw new Error(error)
 	}
 }
-
 start()
