@@ -19,7 +19,8 @@ class FriendshipController {
             res.status(200).send(updatedStatus)
         }
         catch (err){
-            res.status(400).send({message: 'Failed to get friends'})
+
+            res.status(400).send(err)
         }
     }
     async getPendingFriends(req,res){
