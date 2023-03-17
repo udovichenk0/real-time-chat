@@ -10,7 +10,7 @@ let redisStore = new RedisStore({
     client: redisClient,
 })
 const sessionMiddleware = session({
-    secret: 'mysecret',
+    secret: process.env.SESSION_SECRET,
     name: 'sid',
     store: redisStore,
     resave: false,
