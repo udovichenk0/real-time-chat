@@ -38,7 +38,7 @@ const server = http.createServer(app)
 // app.use('/', conversationRouter)
 // app.use('/', authRouter)
 // app.use('/', friendshipRouter)
-app.use('/', (req,res) => res.send('hello'))
+app.use('/test', (req,res) => res.send('hello'))
 // io.on('connect', async (socket) => {
 // 	const friends = await FriendshipService.getFriends(socket.user.userId)
 // 	const rooms = friends.map(({recipient}) => recipient.userId)
