@@ -1,5 +1,5 @@
 const express = require('express')
-const dotenv = require('dotenv')
+// const dotenv = require('dotenv')
 const app = express()
 // const mongoose = require('mongoose')
 const http = require('http')
@@ -58,7 +58,7 @@ app.use('/test', (req,res) => res.send('hello'))
 
 const start = async () => {
 	try {
-		server.listen(process.env.PORT || 3001, () => {
+		server.listen(3001, () => {
 			console.log('server started')
 		})
 		// await mongoose.connect(process.env.MONGODB_URL)
