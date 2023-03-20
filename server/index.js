@@ -1,19 +1,19 @@
 const express = require('express')
-// const dotenv = require('dotenv')
+const dotenv = require('dotenv')
 const app = express()
-// const mongoose = require('mongoose')
+const mongoose = require('mongoose')
 const http = require('http')
-// const {Server} = require('socket.io')
-// const {sessionMiddleware, wrapper, authorizedUser,onDisconnect} = require('./config')
-// const authRouter = require('./routes/authRouter')
-// const conversationRouter = require('./routes/conversationRouter')
-// const SocketController = require('./controllers/socketController')
-// const friendshipRouter = require('./routes/friendshipRouter')
+const {Server} = require('socket.io')
+const {sessionMiddleware, wrapper, authorizedUser,onDisconnect} = require('./config')
+const authRouter = require('./routes/authRouter')
+const conversationRouter = require('./routes/conversationRouter')
+const SocketController = require('./controllers/socketController')
+const friendshipRouter = require('./routes/friendshipRouter')
 const server = http.createServer(app)
 
 
-// const cors = require('cors')
-// const FriendshipService = require("./services/FriendshipService");
+const cors = require('cors')
+const FriendshipService = require("./services/FriendshipService");
 
 
 
@@ -26,19 +26,19 @@ const server = http.createServer(app)
 // })
 
 
-// app.use(express.json())
-// dotenv.config()
-// app.use(cors({
-// 	credentials: true,
-// 	origin: 'http://localhost:3000',
-// 	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-// }))
+app.use(express.json())
+dotenv.config()
+app.use(cors({
+	credentials: true,
+	origin: 'http://localhost:3000',
+	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+}))
 // io.use(wrapper(sessionMiddleware))
 // io.use(authorizedUser)
-// app.use(sessionMiddleware)
-// app.use('/', conversationRouter)
-// app.use('/', authRouter)
-// app.use('/', friendshipRouter)
+app.use(sessionMiddleware)
+app.use('/', conversationRouter)
+app.use('/', authRouter)
+app.use('/', friendshipRouter)
 app.use('/test', (req,res) => res.send('hello'))
 // io.on('connect', async (socket) => {
 // 	const friends = await FriendshipService.getFriends(socket.user.userId)
