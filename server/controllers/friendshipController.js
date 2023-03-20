@@ -15,6 +15,7 @@ class FriendshipController {
         try{
         const {userId} = req.query
             const friends = await FriendshipService.getFriends(userId)
+            console.log('asdoadfioajsdf')
             const updatedStatus = await friendsWithStatus(friends)
             res.status(200).send(updatedStatus)
         }
