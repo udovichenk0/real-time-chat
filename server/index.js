@@ -18,12 +18,12 @@ const FriendshipService = require("./services/FriendshipService");
 
 
 
-// const io = new Server(server, {
-// 	cors:{
-// 		origin: 'http://localhost:3000',
-// 		credentials: true
-// 	}
-// })
+const io = new Server(server, {
+	cors:{
+		origin: 'http://localhost:3000',
+		credentials: true
+	}
+})
 
 
 app.use(express.json())
@@ -33,27 +33,27 @@ app.use(cors({
 	origin: 'http://localhost:3000',
 	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 }))
-// io.use(wrapper(sessionMiddleware))
-// io.use(authorizedUser)
+io.use(wrapper(sessionMiddleware))
+io.use(authorizedUser)
 app.use(sessionMiddleware)
 app.use('/', conversationRouter)
 app.use('/', authRouter)
 app.use('/', friendshipRouter)
 app.use('/test', (req,res) => res.send('hello'))
-// io.on('connect', async (socket) => {
-// 	const friends = await FriendshipService.getFriends(socket.user.userId)
-// 	const rooms = friends.map(({recipient}) => recipient.userId)
-// 	socket.join([...rooms, socket.user.userId])
-// 	const socketController = new SocketController(socket, friends)
-//
-// 	await socketController.getPendFriends()
-// 	await socketController.getFriends()
-// 	await socketController.acceptFriendship()
-// 	await socketController.addFriend()
-// 	await socketController.sendMessage()
-// 	await socketController.emitOnlineStatus()
-// 	onDisconnect(socket, friends)
-// })
+io.on('connect', async (socket) => {
+	const friends = await FriendshipService.getFriends(socket.user.userId)
+	const rooms = friends.map(({recipient}) => recipient.userId)
+	socket.join([...rooms, socket.user.userId])
+	const socketController = new SocketController(socket, friends)
+
+	await socketController.getPendFriends()
+	await socketController.getFriends()
+	await socketController.acceptFriendship()
+	await socketController.addFriend()
+	await socketController.sendMessage()
+	await socketController.emitOnlineStatus()
+	onDisconnect(socket, friends)
+})
 
 
 
@@ -62,7 +62,7 @@ const start = async () => {
 		server.listen(3001, () => {
 			console.log('server started')
 		})
-		// await mongoose.connect(process.env.MONGODB_URL)
+		await mongoose.connect(process.env.MONGODB_URL)
 	} catch (error) {
 		throw new Error(error)
 	}
