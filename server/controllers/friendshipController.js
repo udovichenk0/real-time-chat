@@ -17,7 +17,7 @@ class FriendshipController {
             const friends = await FriendshipService.getFriends(userId)
             console.log('asdoadfioajsdf')
             const updatedStatus = await friendsWithStatus(friends)
-            res.status(200).send(updatedStatus)
+            res.status(200).send({work: true})
         }
         catch (err){
 
