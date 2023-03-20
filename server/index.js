@@ -33,6 +33,7 @@ app.use(cors({
 	origin: 'http://localhost:3000',
 	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 }))
+
 io.use(wrapper(sessionMiddleware))
 io.use(authorizedUser)
 app.use(sessionMiddleware)
@@ -61,7 +62,7 @@ const start = async () => {
 		server.listen(3001, () => {
 			console.log('server started')
 		})
-		await mongoose.connect(process.env.MONGODB_URI)
+		await mongoose.connect(process.env.MONGODB_URL)
 	} catch (error) {
 		throw new Error(error)
 	}

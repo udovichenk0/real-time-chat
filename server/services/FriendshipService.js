@@ -29,6 +29,8 @@ class FriendshipService {
         return user.friends
     }
 
+
+    
     async getPendingFriends(userId){
         const user = await User.findOne({userId})
             .populate({
