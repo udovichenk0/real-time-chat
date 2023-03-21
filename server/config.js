@@ -36,7 +36,6 @@ const authorizedUser = (socket,next) => {
     // )
     next()
 }
-
 const wrapper = (expressMiddleware) => (socket, next) => {
     return expressMiddleware(socket.request, {}, next)
 }
