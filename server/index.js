@@ -3,7 +3,6 @@ const dotenv = require('dotenv')
 const app = express()
 const mongoose = require('mongoose')
 const http = require('http')
-const {MongoClient} = require('mongodb')
 const {Server} = require('socket.io')
 const {sessionMiddleware, wrapper, authorizedUser,onDisconnect} = require('./config')
 const authRouter = require('./routes/authRouter')
@@ -20,7 +19,7 @@ const FriendshipService = require("./services/FriendshipService");
 
 const io = new Server(server, {
 	cors:{
-		origin: 'https://real-time-chat-ui3l.vercel.app',
+		origin: 'http://localhost:3000',
 		credentials: true
 	}
 })
@@ -30,7 +29,7 @@ app.use(express.json())
 dotenv.config()
 app.use(cors({
 	credentials: true,
-	origin: 'https://real-time-chat-ui3l.vercel.app',
+	origin: 'http://localhost:3000',
 	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 }))
 

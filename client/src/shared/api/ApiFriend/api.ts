@@ -2,7 +2,7 @@ import axios from "axios";
 import {Friend} from "@/shared/api/ApiFriend";
 
 export const getFriends = async ({userId}:{userId:string}) => {
-    const {data} = await axios<Friend<'accepted'>[]>('https://real-time-chat-steel.vercel.app/get-friends', {
+    const {data} = await axios<Friend<'accepted'>[]>('http://localhost:3001/get-friends', {
         params: {
             userId
         }
@@ -11,7 +11,7 @@ export const getFriends = async ({userId}:{userId:string}) => {
 }
 
 export const getPendingFriends = async ({userId}:{userId:string}) => {
-    const {data} = await axios<Friend<'pending'>[]>('https://real-time-chat-steel.vercel.app/get-pending-friends', {
+    const {data} = await axios<Friend<'pending'>[]>('http://localhost:3001/get-pending-friends', {
         params: {
             userId
         }
