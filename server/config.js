@@ -20,7 +20,7 @@ const sessionMiddleware = session({
 })
 
 const corsConfig = {
-    origin: 'http://localhost:3000',
+    origin: 'https://real-time-chat-ui3l.vercel.app',
     credentials: true
 }
 

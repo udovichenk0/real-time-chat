@@ -20,7 +20,7 @@ const FriendshipService = require("./services/FriendshipService");
 
 const io = new Server(server, {
 	cors:{
-		origin: 'http://localhost:3000',
+		origin: 'https://real-time-chat-ui3l.vercel.app',
 		credentials: true
 	}
 })
@@ -30,7 +30,7 @@ app.use(express.json())
 dotenv.config()
 app.use(cors({
 	credentials: true,
-	origin: 'http://localhost:3000',
+	origin: 'https://real-time-chat-ui3l.vercel.app',
 	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 }))
 
