@@ -40,7 +40,7 @@ class AuthController{
 		const {username, password} = req.body
 		const user = await UserService.getUser(username)
 		if(user){
-			res.status(400).send(user)
+			res.status(400).send('User with that username already exists')
 		}
 		else{
 			const passhash = await bcrypt.hash(password, 7)

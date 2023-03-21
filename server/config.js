@@ -1,18 +1,17 @@
 const session = require("express-session");
 // import {createClient} from "redis"
 const RedisStore = require('connect-redis').default
-const Redis = require('ioredis')
-// Initialize client.
-let redisClient = new Redis()
+// const Redis = require('ioredis')
+// let redisClient = new Redis()
 // redisClient.connect().catch(console.error)
 // Initialize store.
-let redisStore = new RedisStore({
-    client: redisClient,
-})
+// let redisStore = new RedisStore({
+//     client: redisClient,
+// })
 const sessionMiddleware = session({
     secret: 'my_secret_key',
     name: 'sid',
-    store: redisStore,
+    // store: redisStore,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -31,10 +30,10 @@ const authorizedUser = (socket,next) => {
     }
 
     socket.user = {...socket.request.session.user}
-    redisClient.hset(
-        `user:${socket.user.userId}`,
-        'connected', true
-    )
+    // redisClient.hset(
+    //     `user:${socket.user.userId}`,
+    //     'connected', true
+    // )
     next()
 }
 
@@ -44,10 +43,10 @@ const wrapper = (expressMiddleware) => (socket, next) => {
 
 const onDisconnect = (socket, friends) => {
     socket.on('disconnect',async () => {
-        redisClient.hset(
-            `user:${socket.user.userId}`,
-            'connected', false
-        )
+        // redisClient.hset(
+        //     `user:${socket.user.userId}`,
+        //     'connected', false
+        // )
         for(let friend of friends){
             socket.to(friend.recipient.userId).emit('connected', false, socket.user.userId)
         }
@@ -57,17 +56,17 @@ const onDisconnect = (socket, friends) => {
 async function friendsWithStatus (friends) {
     const friendList = []
     for(let friend of friends){
-        const isConnected = await redisClient.hget(`user:${friend.recipient.userId}`, 'connected')
+        // const isConnected = await redisClient.hget(`user:${friend.recipient.userId}`, 'connected')
         let clonedFriend = friend.toObject();
-        clonedFriend.connected = JSON.parse(isConnected)
+        // clonedFriend.connected = JSON.parse(isConnected)
         friendList.push(clonedFriend)
     }
     return friendList
 }
 
 async function friendWithStatus(friend){
-    const isConnected = await redisClient.hget(`user:${friend.recipient.userId}`, 'connected')
-    friend.connected = JSON.parse(isConnected)
+    // const isConnected = await redisClient.hget(`user:${friend.recipient.userId}`, 'connected')
+    // friend.connected = JSON.parse(isConnected)
     return friend
 }
 

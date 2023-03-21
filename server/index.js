@@ -116,8 +116,6 @@ const start = async () => {
 			useUnifiedTopology: true
 		}
 		await mongoose.connect(process.env.MONGODB_URI, connectionParams).then(() => console.log('connected'))
-		// await connectDb()
-		// const mongoClient = await (new MongoClient(process.env.MONGODB_URI, {}).connect())
 
 	} catch (error) {
 
